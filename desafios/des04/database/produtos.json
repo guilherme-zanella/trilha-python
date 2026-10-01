@@ -1,0 +1,12 @@
+[
+    {
+        "nome": "pera",
+        "preco": 3.0,
+        "estoque": 20
+    },
+    {
+        "nome": "maça",
+        "preco": 4.0,
+        "estoque": 13
+    }
+]
