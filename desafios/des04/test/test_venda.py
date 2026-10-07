@@ -3,46 +3,42 @@ from services.produto import vender_produto
 import pytest
 from unittest.mock import Mock
 
-def test_vender_produto(monkeypatch):
+@pytest.mark.parametrize(
+    'quantidade',
+    [
+        1, 2, 5
+    ]
+)
 
-    estoque_fake = Mock(return_value=10)
+def test_venda_sucedida(monkeypatch, quantidade):
 
-    preco_fake = Mock(return_value=50)
+    estoque_mock = Mock(return_value=10)
 
-    mudar_estoque = Mock()
+    preco_mock = Mock(return_value=50)
 
-    monkeypatch.setattr(services.produto, 'estoque_produto', estoque_fake)
-    monkeypatch.setattr(services.produto, 'preco_produto', preco_fake)
-    monkeypatch.setattr(services.produto, 'diminuir_estoque', mudar_estoque)
+    mudar_estoque_mock = Mock()
 
-    vender_produto('pera', 2)
-
-    mudar_estoque.assert_called_once_with('pera', 2)
-
-def test_venda_sucedida(monkeypatch):
-    estoque_fake = Mock(return_value=10)
+    monkeypatch.setattr(services.produto, 'estoque_produto', estoque_mock)
+    monkeypatch.setattr(services.produto, 'preco_produto', preco_mock)
+    monkeypatch.setattr(services.produto, 'diminuir_estoque', mudar_estoque_mock)
     
-    preco_fake = Mock(return_value=50)
+    resultado = vender_produto('pera', quantidade)
 
-    mudar_estoque = Mock()
+    assert resultado == 'Venda realizado com sucesso'
+    mudar_estoque_mock.assert_called_once_with('pera', quantidade)
 
-    monkeypatch.setattr(services.produto, 'estoque_produto', estoque_fake)
-    monkeypatch.setattr(services.produto, 'preco_produto', preco_fake)
-    monkeypatch.setattr(services.produto, 'diminuir_estoque', mudar_estoque)
-
-    assert vender_produto('pera', 2) == 'Venda realizado com sucesso'
 
 def test_venda_invalida(monkeypatch):
-    estoque_fake = Mock(return_value=10)
+    estoque_mock = Mock(return_value=10)
     
-    preco_fake = Mock(return_value=50)
+    preco_mock = Mock(return_value=50)
 
-    mudar_estoque = Mock()
+    mudar_estoque_mock = Mock()
 
-    monkeypatch.setattr(services.produto, 'estoque_produto', estoque_fake)
-    monkeypatch.setattr(services.produto, 'preco_produto', preco_fake)
-    monkeypatch.setattr(services.produto, 'diminuir_estoque', mudar_estoque)
+    monkeypatch.setattr(services.produto, 'estoque_produto', estoque_mock)
+    monkeypatch.setattr(services.produto, 'preco_produto', preco_mock)
+    monkeypatch.setattr(services.produto, 'diminuir_estoque', mudar_estoque_mock)
 
     assert vender_produto('pera', 100) == 'Não foi possivel finalizar a venda!'
-    mudar_estoque.assert_not_called()
+    mudar_estoque_mock.assert_not_called()
 
