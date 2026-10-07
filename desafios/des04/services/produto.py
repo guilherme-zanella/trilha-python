@@ -7,7 +7,7 @@ def criar_produto(nome, preco, estoque):
 
 def vender_produto(produto, quantidade: int):
     estoque = estoque_produto(produto)
-    if estoque:
+    if estoque > 0:
         if estoque >= quantidade and quantidade > 0:
             diminuir_estoque(produto, quantidade)
             print()
