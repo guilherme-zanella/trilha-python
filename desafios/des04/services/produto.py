@@ -21,7 +21,10 @@ def vender_produto(produto, quantidade: int):
             print(f'Valor da venda: R${preco:.2f}')
 
             print(f'Estoque restante: {estoque}')
+            return f'Venda realizado com sucesso'
         else:
             print('Não foi possível finalizar a venda!')
+            return f'Não foi possivel finalizar a venda!'
     else:
         print(f'Não temos estoque desse produto!')
+        return f'Não temos estoque desse produto'
